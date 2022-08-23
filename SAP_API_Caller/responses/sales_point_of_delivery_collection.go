@@ -35,6 +35,6 @@ type SalesPointOfDeliveryCollection struct {
 			EntityLastChangedOn        string `json:"EntityLastChangedOn"`                              
 			ETag                       string `json:"ETag"`                              
 			Released                   string `json:"Released"`                              
-		} `json:results"`
+		} `json:"results"`
 	} `json:"d"`
 }
