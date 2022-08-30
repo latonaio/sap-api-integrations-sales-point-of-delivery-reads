@@ -31,8 +31,7 @@ sap-api-integrations-sales-point-of-delivery-reads  において、API への値
 
 ### SDC レイアウト
 
-* inoutSDC.SalesPointOfDeliveryCollection.SalesPointOfDeliveryID（販売配送点ID）  
-
+* inoutSDC.SalesPointOfDeliveryCollection.ObjectID（オブジェクトID）  
 
 ## SAP API Bussiness Hub の API の選択的コール
 
@@ -68,14 +67,14 @@ accepter における データ種別 の指定に基づいて SAP_API_Caller �
 caller.go の func() 毎 の 以下の箇所が、指定された API をコールするソースコードです。  
 
 ```
-func (c *SAPAPICaller) AsyncGetSalesPointOfDelivery(salesPointOfDeliveryID string, accepter []string) {
+func (c *SAPAPICaller) AsyncGetSalesPointOfDelivery(objectID string, accepter []string) {
 	wg := &sync.WaitGroup{}
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
 		switch fn {
 		case "SalesPointOfDeliveryCollection":
 			func() {
-				c.SalesPointOfDeliveryCollection(salesPointOfDeliveryID)
+				c.SalesPointOfDeliveryCollection(objectID)
 				wg.Done()
 			}()
 		default:

@@ -26,14 +26,14 @@ func NewSAPAPICaller(baseUrl string, l *logger.Logger) *SAPAPICaller {
 	}
 }
 
-func (c *SAPAPICaller) AsyncGetSalesPointOfDelivery(salesPointOfDeliveryID string, accepter []string) {
+func (c *SAPAPICaller) AsyncGetSalesPointOfDelivery(objectID string, accepter []string) {
 	wg := &sync.WaitGroup{}
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
 		switch fn {
 		case "SalesPointOfDeliveryCollection":
 			func() {
-				c.SalesPointOfDeliveryCollection(salesPointOfDeliveryID)
+				c.SalesPointOfDeliveryCollection(objectID)
 				wg.Done()
 			}()
 		default:
@@ -44,8 +44,8 @@ func (c *SAPAPICaller) AsyncGetSalesPointOfDelivery(salesPointOfDeliveryID strin
 	wg.Wait()
 }
 
-func (c *SAPAPICaller) SalesPointOfDeliveryCollection(salesPointOfDeliveryID string) {
-	SalesPointOfDeliveryCollectionData, err := c.callSalesPointOfDeliverySrvAPIRequirementSalesPointOfDeliveryCollection("UtilitiesSalesPointOfDeliveryCollection", salesPointOfDeliveryID)
+func (c *SAPAPICaller) SalesPointOfDeliveryCollection(objectID string) {
+	SalesPointOfDeliveryCollectionData, err := c.callSalesPointOfDeliverySrvAPIRequirementSalesPointOfDeliveryCollection("UtilitiesSalesPointOfDeliveryCollection", objectID)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -54,12 +54,12 @@ func (c *SAPAPICaller) SalesPointOfDeliveryCollection(salesPointOfDeliveryID str
 
 }
 
-func (c *SAPAPICaller) callSalesPointOfDeliverySrvAPIRequirementSalesPointOfDeliveryCollection(api, salesPointOfDeliveryID string) ([]sap_api_output_formatter.SalesPointOfDeliveryCollection, error) {
+func (c *SAPAPICaller) callSalesPointOfDeliverySrvAPIRequirementSalesPointOfDeliveryCollection(api, objectID string) ([]sap_api_output_formatter.SalesPointOfDeliveryCollection, error) {
 	url := strings.Join([]string{c.baseURL, "c4codataapi", api}, "/")
 	req, _ := http.NewRequest("GET", url, nil)
 
 	c.setHeaderAPIKeyAccept(req)
-	c.getQueryWithSalesPointOfDeliveryCollection(req, salesPointOfDeliveryID)
+	c.getQueryWithSalesPointOfDeliveryCollection(req, objectID)
 
 	resp, err := new(http.Client).Do(req)
 	if err != nil {
@@ -80,8 +80,8 @@ func (c *SAPAPICaller) setHeaderAPIKeyAccept(req *http.Request) {
 	req.Header.Set("Accept", "application/json")
 }
 
-func (c *SAPAPICaller) getQueryWithSalesPointOfDeliveryCollection(req *http.Request, salesPointOfDeliveryID string) {
+func (c *SAPAPICaller) getQueryWithSalesPointOfDeliveryCollection(req *http.Request, objectID string) {
 	params := req.URL.Query()
-	params.Add("$filter", fmt.Sprintf("SalesPointOfDeliveryID eq '%s'", salesPointOfDeliveryID))
+	params.Add("$filter", fmt.Sprintf("ObjectID eq '%s'", objectID))
 	req.URL.RawQuery = params.Encode()
 }

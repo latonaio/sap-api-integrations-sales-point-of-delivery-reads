@@ -23,7 +23,7 @@ func main() {
 	}
 
 	caller.AsyncGetSalesPointOfDelivery(
-		inoutSDC.SalesPointOfDeliveryCollection.SalesPointOfDeliveryID,
+		inoutSDC.SalesPointOfDeliveryCollection.ObjectID,
 		accepter,
 	)
 }

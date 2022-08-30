@@ -39,6 +39,6 @@
 	},
 	"api_schema": "SalesPointOfDeliveryUtilitiesSalesPointOfDeliveryCollection",
 	"accepter": ["SalesPointOfDeliveryCollection"],
-	"sales_point_of_delivery_code": "1",
+	"sales_point_of_delivery_code": "",
 	"deleted": false
 }
